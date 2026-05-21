@@ -1,0 +1,13 @@
+# 灵创平台 GNN 训练环境依赖
+# 安装方式（建议 Python 3.10+）：
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install torch-geometric
+#   pip install -r requirements.txt
+#
+# 注意：torch-geometric 需要与 torch 版本匹配，建议按官方文档安装：
+# https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html
+
+torch>=2.1.0
+torch-geometric>=2.4.0
+numpy>=1.24.0
