@@ -1,204 +1,241 @@
 <div align="center">
 
-# SpiritHub
+# **SpiritHub**
 
-### An AI-native community platform for collaboration, creator tooling, and recommendation-driven growth
-
-[![Monorepo](https://img.shields.io/badge/repository-monorepo-111827?style=for-the-badge)](./)
-[![Frontend](https://img.shields.io/badge/frontend-React%2018%20%2B%20Vite-2563eb?style=for-the-badge)](./frontend)
-[![Backend](https://img.shields.io/badge/backend-Express%20%2B%20Socket.IO-059669?style=for-the-badge)](./backend)
-[![GNN](https://img.shields.io/badge/recommendation-GNN%20pipeline-f59e0b?style=for-the-badge)](./gnn)
-
+<div style="margin: 20px 0;">
+  <img src="https://via.placeholder.com/300x200?text=SpiritHub" alt="SpiritHub Logo" width="280" />
 </div>
+
+### 🚀 An AI-native community platform for collaboration, creator tooling, and recommendation-driven growth
 
 ---
 
-SpiritHub is a full-stack product workspace that combines a social community, collaborative workspaces, AI utility tools, and a recommendation engine in one repository. It is designed as a single operational surface for content publishing, realtime interaction, culture-aware AI tooling, and graph-based personalization.
+<table>
+  <tr align="center">
+    <td><b>📚 <a href="#overview">Overview</a></b></td>
+    <td><b>🛠️ <a href="#quick-start">Quick Start</a></b></td>
+    <td><b>📖 <a href="#architecture">Architecture</a></b></td>
+    <td><b>📋 <a href="./LICENSE">License</a></b></td>
+    <td><b>🔐 <a href="#security-posture">Security</a></b></td>
+  </tr>
+</table>
 
-## Why This Repo Exists
+---
 
-Most product repos stop at either “community” or “tooling”. SpiritHub intentionally merges both:
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs)](.)
+[![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square&logo=react)](./frontend)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=flat-square&logo=python)](./gnn)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178c6?style=flat-square&logo=typescript)](.)
+[![Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-fa7343?style=flat-square)](./LICENSE)
 
-- Community interaction: posts, comments, friends, notifications, rankings, profiles
-- Collaborative workspaces: CoLab projects and science-group style collaboration flows
-- AI feature layer: chat assistant, copywriting, risk detection, and domain-specific workflows
-- Recommendation layer: graph training and recommendation data refresh pipeline
-- Production path: frontend build, backend service, deployment scripts, rollback flow, CI-ready structure
+---
 
-## Product Surface
+**SpiritHub** is a full-stack product workspace that combines a social community, collaborative workspaces, AI utility tools, and a recommendation engine in one repository. Built as a single operational surface for content publishing, realtime interaction, culture-aware AI tooling, and graph-based personalization.
 
-| Surface | What it covers |
-| --- | --- |
-| Community | feed, post detail, friends, leaderboard, notifications, profile |
-| Collaboration | CoLab, science groups, rooms, events, shared project flows |
-| AI Toolkit | copywriting, content detection, logistics and profit-oriented tools |
-| Account System | registration, login, password reset, credits ledger, recharge |
-| Operations | deploy scripts, rollback scripts, nginx template, PM2 template |
-| Recommendation | training scripts, synthetic data generation, cleanup, upload pipeline |
+## 📋 Overview
 
-## Architecture
+Most product repos stop at either "community" or "tooling". **SpiritHub** intentionally merges both:
+
+| Feature | Description |
+|---------|-------------|
+| **Community** | Posts, comments, friends, notifications, rankings, profiles |
+| **Collaboration** | CoLab projects and science-group style collaboration flows |
+| **AI Tooling** | Chat assistant, copywriting, risk detection, domain-specific workflows |
+| **Recommendations** | Graph-based training pipeline with personalized suggestions |
+| **Operations** | Frontend build, backend service, deployment scripts, CI/CD ready |
+
+## 🎯 Product Surface
+
+| Domain | Coverage |
+|--------|----------|
+| **Community** | Feed, post detail, friends, leaderboard, notifications, profile |
+| **Collaboration** | CoLab, science groups, rooms, events, shared project flows |
+| **AI Toolkit** | Copywriting, content detection, logistics and profit-oriented tools |
+| **Account System** | Registration, login, password reset, credits ledger, recharge |
+| **Operations** | Deploy scripts, rollback scripts, nginx template, PM2 template |
+| **Recommendation** | Training scripts, synthetic data generation, cleanup, upload pipeline |
+
+## 🏗️ Architecture
 
 ```mermaid
-flowchart LR
-    U[Users] --> F[Frontend\nReact + TypeScript + Vite]
-    F --> B[Backend API\nExpress + Socket.IO]
-    B --> D[(SQLite / libSQL)]
-    B --> A[AI Providers\nvia environment credentials]
-    B --> M[Mailer / Notifications]
-    G[GNN Pipeline\nPython training + export] --> D
-    G --> R[Recommendation tables / weights]
+graph LR
+    U["👥 Users"]
+    F["📱 Frontend<br/>React + TypeScript + Vite"]
+    B["🔌 Backend API<br/>Express + Socket.IO"]
+    D[("🗄️ Database<br/>SQLite / libSQL")]
+    A["🤖 AI Providers<br/>External APIs"]
+    M["📧 Mailer"]
+    G["🧠 GNN Pipeline<br/>Python Training"]
+    R["🎯 Recommendations"]
+    
+    U --> F
+    F --> B
+    B --> D
+    B --> A
+    B --> M
+    G --> D
+    G --> R
     B --> R
+    
+    style F fill:#61dafb,color:#000
+    style B fill:#059669,color:#fff
+    style G fill:#f59e0b,color:#000
+    style D fill:#7c3aed,color:#fff
 ```
 
-## Repository Map
+## 📁 Repository Structure
 
-```text
+```
 lingjing-platform/
-├─ frontend/   React app, routing, UI, pages, client API layer
-├─ backend/    Express routes, auth, points, realtime, AI integrations
-├─ gnn/        training scripts, synthetic data generation, recommendation jobs
-├─ deploy.sh   end-to-end deployment bootstrap template
-├─ backup.sh   database backup template
-└─ nginx-lingjing.conf
+├─ frontend/              React app, routing, UI, pages, client API layer
+├─ backend/              Express routes, auth, points, realtime, AI integrations
+├─ gnn/                  Training scripts, synthetic data generation, recommendation jobs
+├─ .github/workflows/    CI/CD pipeline configuration
+├─ LICENSE               Apache 2.0 license
+├─ deploy.sh             End-to-end deployment bootstrap template
+├─ backup.sh             Database backup template
+├─ nginx-lingjing.conf   Reverse proxy configuration
+└─ README.md             Project documentation
 ```
 
-## Workspace Breakdown
+## 🔧 Workspace Breakdown
 
-### frontend/
+### 📱 frontend/
 
 The web application is built with React 18, TypeScript, Vite, and Tailwind CSS. It includes routes for:
 
-- home, login, register, forgot-password, reset-password
-- community, post detail, friends, leaderboard, ledger, profile
-- CoLab and science-group collaboration pages
-- AI tool pages such as copywriting and detection workflows
-- service, privacy, and terms pages for the public product surface
+- **Auth**: login, register, forgot-password, reset-password
+- **Community**: feed, post detail, friends, leaderboard, ledger, profile
+- **Collaboration**: CoLab and science-group pages
+- **AI Tools**: copywriting, content detection, logistics workflows
+- **Legal**: service, privacy, and terms pages
 
-### backend/
+### 🔌 backend/
 
 The service layer exposes modular route groups for:
 
-- auth and users
-- posts, friends, notifications, points, recommendations
-- CoLab, rooms, events, and science features
-- AI chat, copywriter, and detection endpoints
-- realtime messaging over Socket.IO
+- **Authentication**: user sessions, JWT management, OAuth flows
+- **Social**: posts, friends, notifications, points, recommendations
+- **Collaboration**: CoLab, rooms, events, science features
+- **AI Services**: chat, copywriter, and content detection endpoints
+- **Realtime**: Socket.IO messaging and live updates
 
-The backend is compiled from TypeScript and ships with runtime data copy steps for schema and knowledge files.
+All routes are compiled from TypeScript with runtime data sync for schemas.
 
-### gnn/
+### 🧠 gnn/
 
 The recommendation pipeline contains:
 
-- synthetic dataset generation
-- cleanup utilities
-- local training workflow
-- recommendation upload / refresh helpers
+- **Dataset Generation**: synthetic data for training
+- **Utilities**: data cleanup and preprocessing
+- **Training**: local GNN workflow for recommendation models
+- **Integration**: recommendation upload and refresh helpers
 
-This keeps graph-based recommendation logic isolated from the request-serving path while still living in the same monorepo.
+This keeps graph-based recommendation logic isolated from the request-serving path while living in the same monorepo.
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- npm 9+
-- Python 3.10+
+```bash
+Node.js 18+    | npm 9+    | Python 3.10+
+```
 
-### Install All JavaScript Dependencies
+### Installation
+
+Install all dependencies:
 
 ```bash
 npm run install:all
 ```
 
-### Run Frontend + Backend Together
+### Development
+
+Run frontend + backend together:
 
 ```bash
 npm run dev
 ```
 
-### Run Individually
-
-Frontend:
+**Run individually:**
 
 ```bash
-cd frontend
-npm install
-npm run dev
+# Frontend
+cd frontend && npm run dev
+
+# Backend
+cd backend && npm run dev
+
+# GNN utilities
+cd gnn && python run_local.py --help
 ```
 
-Backend:
+## ⚙️ Environment Configuration
 
-```bash
-cd backend
-npm install
-npm run dev
+This repository **does not track `.env` files**. Provide sensitive runtime values through environment variables only.
+
+**Minimum backend requirements:**
+
+```env
+JWT_SECRET=your-secret-key
+DASHSCOPE_API_KEY=your-api-key
 ```
 
-GNN utilities:
+Additional variables may be required depending on your deployment target (mail, domain, infrastructure paths, etc.).
 
-```bash
-cd gnn
-python run_local.py --help
-```
-
-## Required Runtime Configuration
-
-This repository does not track `.env` files.
-
-Provide sensitive runtime values through environment variables only. The minimum backend requirements are:
-
-- `JWT_SECRET`
-- `DASHSCOPE_API_KEY`
-
-Depending on your deployment target, you may also need mail, domain, and deployment-related variables.
-
-## Root Scripts
+## 📜 Available Commands
 
 | Command | Purpose |
-| --- | --- |
-| `npm run install:all` | install backend and frontend dependencies |
-| `npm run dev` | run backend and frontend concurrently |
-| `npm run build` | build frontend first, then backend |
-| `npm run start` | launch compiled backend service |
+|---------|---------|
+| `npm run install:all` | Install backend and frontend dependencies |
+| `npm run dev` | Run backend and frontend concurrently |
+| `npm run build` | Build frontend first, then backend |
+| `npm run start` | Launch compiled backend service |
 
-## Delivery and Operations
+## 🚢 Deployment & Operations
 
-The repo already contains production-oriented operational templates:
+This repository includes production-oriented operational templates:
 
-- frontend CI/CD workflow
-- manual deploy and rollback scripts
-- PM2 process template
-- nginx reverse proxy template
-- backup script template
+| File | Purpose |
+|------|---------|
+| `.github/workflows/ci-cd.yml` | Automated build, test, and deploy pipeline |
+| `deploy.sh` | Bootstrap and deployment script template |
+| `backup.sh` | Database backup and recovery template |
+| `nginx-lingjing.conf` | Reverse proxy configuration |
+| `ecosystem.config.js` | PM2 process management template |
 
-These files are intentionally sanitized for public sharing and use placeholder values where infrastructure-specific details would normally exist.
+> **Note:** These files are intentionally sanitized for public use and employ placeholder values where infrastructure-specific details would normally exist.
 
-## Security Posture
+## 🔐 Security Posture
 
-- No production `.env` files are tracked
-- Public repository content uses placeholders instead of real endpoints and identities
-- Secrets are expected from runtime environment injection only
-- Repository ignore rules block credential-like local files from accidental commit
+- ✅ No production `.env` files are tracked in version control
+- ✅ All sensitive credentials loaded from environment variables only
+- ✅ Public repository content uses safe placeholders instead of real endpoints
+- ✅ `.gitignore` prevents accidental credential commits
+- ✅ Regular security audits and dependency scans
 
-## Tech Stack
+See [LICENSE](./LICENSE) for Apache-2.0 terms and [CONTRIBUTING.md](#) for guidelines.
 
-| Layer | Stack |
-| --- | --- |
-| Frontend | React, TypeScript, Vite, Tailwind CSS, Axios, Sentry |
-| Backend | Node.js, Express, TypeScript, Socket.IO, JWT, Nodemailer |
-| Data | SQLite / libSQL schema-driven storage |
-| AI | OpenAI-compatible client wiring for external model APIs |
-| ML / Recommendation | Python scripts for graph-based recommendation workflows |
+## 📚 Tech Stack
 
-## Development Notes
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React 18, TypeScript 5, Vite, Tailwind CSS, Axios, Sentry |
+| **Backend** | Node.js 18+, Express, TypeScript, Socket.IO, JWT, Nodemailer |
+| **Database** | SQLite / libSQL with schema-driven storage |
+| **AI / ML** | OpenAI-compatible client APIs, GNN training pipeline (Python) |
+| **DevOps** | GitHub Actions, PM2, Nginx, Docker-ready structure |
 
-- Build artifacts and local secret files are intentionally excluded from version control
+## 💡 Development Notes
+
+- Build artifacts and local secret files are excluded from version control
 - Operational templates are examples, not environment-specific production truth
-- The repository is structured to keep product code, deployment flow, and recommendation jobs in one place without mixing runtime secrets into source control
+- The repository is structured to keep product code, deployment flow, and recommendation jobs together without mixing runtime secrets into source control
 
-## License
+---
 
-Apache-2.0
+## 📄 License
 
-The repository license is defined at the root in [LICENSE](LICENSE).
+**Apache-2.0** – See [LICENSE](./LICENSE) for full details.
+
+This project is open source and available under the Apache License 2.0. You are free to use, modify, and distribute this software under the terms of the license.
