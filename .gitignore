@@ -25,11 +25,15 @@ venv/
 
 # Runtime data
 *.db
+*.db-*
 *.sqlite
 *.sqlite3
 *.log
 logs/
 tmp/
+
+# ML artifacts
+gnn/weights/*.pt
 
 # OS / editor
 .DS_Store
