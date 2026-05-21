@@ -26,7 +26,7 @@ export default function Terms() {
       <p className="text-xs text-stone-400 mb-8">{t('最后更新：2026年5月19日 · 生效日期：2026年5月19日', 'Last updated: May 19, 2026 · Effective date: May 19, 2026')}</p>
 
       <Section titleZh="1. 总则" titleEn="1. General Terms">
-        <p>{t('欢迎使用灵创平台（以下简称"本平台"）。本平台由东南大学"五边形战士"团队开发运营。您在注册账号或使用本平台任何服务前，请仇细阅读本协议。', 'Welcome to SpiritHub (the "Platform"). The Platform is developed and operated by Southeast University "Pentagon Warriors" team. Please read these terms carefully before registering or using any service.')}</p>
+        <p>{t('欢迎使用灵创平台（以下简称"本平台"）。本平台由平台运营团队开发运营。您在注册账号或使用本平台任何服务前，请仔细阅读本协议。', 'Welcome to SpiritHub (the "Platform"). The Platform is developed and operated by the platform operations team. Please read these terms carefully before registering or using any service.')}</p>
         <p>{t('注册或使用本平台即表示您已充分阅读、理解并同意本协议的全部条款。如不同意，请停止使用。', 'By registering or using the Platform, you confirm that you have read, understood, and agreed to all terms. If you disagree, please stop using the Platform.')}</p>
       </Section>
 
@@ -68,11 +68,11 @@ export default function Terms() {
       </Section>
 
       <Section titleZh="8. 争议解决" titleEn="8. Dispute Resolution">
-        <p>{t('本协议的解释与争议，均适用中华人民共和国法律。如发生争议，双方应协商解决；协商不成，提交本平台注册地（江苏省南京市）有管辖权的人民法院诉讼解决。', 'These terms are governed by the laws of the People’s Republic of China. Disputes should first be resolved through negotiation; if unresolved, they will be submitted to the competent court in the Platform’s registration location (Nanjing, Jiangsu) for litigation.')}</p>
+        <p>{t('本协议的解释与争议，适用平台实际运营地的相关法律法规。如发生争议，双方应先协商解决；协商不成，提交平台运营主体所在地有管辖权的机构处理。', 'These terms are governed by the laws and regulations applicable in the platform’s operating jurisdiction. Disputes should first be resolved through negotiation; if unresolved, they will be submitted to the competent authority in the operator’s jurisdiction.')}</p>
       </Section>
 
       <Section titleZh="9. 联系我们" titleEn="9. Contact Us">
-        <p>{t('如对本协议有任何疑问，请联系：', 'If you have questions about these terms, contact:')} <a href="mailto:213232400@seu.edu.cn" className="text-violet-600 hover:underline">213232400@seu.edu.cn</a></p>
+        <p>{t('如对本协议有任何疑问，请联系：', 'If you have questions about these terms, contact:')} <a href="mailto:legal@example.com" className="text-violet-600 hover:underline">legal@example.com</a></p>
       </Section>
 
       <div className="mt-10 pt-6 border-t border-stone-100 flex gap-4 text-xs text-stone-400">

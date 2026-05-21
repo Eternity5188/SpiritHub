@@ -15,7 +15,7 @@
   python gnn/run_local.py --train --upload   # 跳过下载，直接用已有本地DB训练并上传
   python gnn/run_local.py --download         # 只下载DB，不训练不上传
 
-服务器配置：修改下方 SERVER_* 常量。
+服务器配置：通过环境变量设置 SERVER_* 参数。
 """
 
 import argparse
@@ -31,8 +31,8 @@ from pathlib import Path
 
 SERVER_USER = os.getenv("LINGJING_SERVER_USER", "deploy-user")
 SERVER_HOST = os.getenv("LINGJING_SERVER_HOST", "your-server-host")
-SERVER_DB   = os.getenv("LINGJING_SERVER_DB", f"/home/{SERVER_USER}/lingjing-platform/data/lingjing.db")
-SERVER_WEIGHTS_DIR = os.getenv("LINGJING_SERVER_WEIGHTS_DIR", f"/home/{SERVER_USER}/lingjing-platform/gnn/weights/")
+SERVER_DB   = os.getenv("LINGJING_SERVER_DB", f"/srv/{SERVER_USER}/your-app/data/app.db")
+SERVER_WEIGHTS_DIR = os.getenv("LINGJING_SERVER_WEIGHTS_DIR", f"/srv/{SERVER_USER}/your-app/gnn/weights/")
 # 若使用 SSH 密钥文件，填写路径；使用 ssh-agent 可留空字符串
 SSH_KEY = ""   # 例如 r"C:\Users\you\.ssh\lingjing_key.pem"
 
@@ -194,7 +194,7 @@ def _upload_recommendations() -> None:
         print("  ✓ 推荐结果已写入生产数据库")
         # 重启后端使 libsql 连接刷新，读到最新数据
         run(["ssh"] + _ssh_opts(is_ssh=True) + [f"{SERVER_USER}@{SERVER_HOST}",
-            "pm2 restart lingjing-backend"])
+            "pm2 restart app-backend"])
         print("  ✓ 后端已重启（刷新 DB 读快照）")
     finally:
         os.unlink(tmp_path)
@@ -220,7 +220,7 @@ def _upload_weights() -> None:
 def _reload_backend() -> None:
     """通知 PM2 热重载后端（可选，推荐结果是数据库级别，无需重启）"""
     print("  [提示] 推荐结果已持久化到数据库，后端无需重启即可读取新推荐。")
-    print("  若需强制刷新可手动运行: ssh ${SERVER_USER}@${SERVER_HOST} 'pm2 restart lingjing-backend'")
+    print(f"  若需强制刷新可手动运行: ssh {SERVER_USER}@{SERVER_HOST} 'pm2 restart app-backend'")
 
 
 # ─── 主入口 ───────────────────────────────────────────────────────────────────

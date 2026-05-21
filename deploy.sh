@@ -156,7 +156,7 @@ pm2 start ecosystem.config.js
 
 pm2 save
 pm2 startup systemd -u root --hp /root | tail -1 | bash  # 开机自启
-success "PM2 服务已启动，进程名：lingjing"
+success "PM2 服务已启动，进程名：app-backend"
 pm2 list
 echo ""
 
@@ -166,7 +166,7 @@ echo ""
 if [[ "$INSTALL_NGINX" == "y" || "$INSTALL_NGINX" == "Y" ]]; then
   echo -e "${BOLD}【第七步】配置 nginx 反向代理${RESET}"
 
-  NGINX_CONF="/etc/nginx/sites-available/lingjing"
+  NGINX_CONF="/etc/nginx/sites-available/app-template"
   cat > "$NGINX_CONF" <<NGINX
 server {
     listen 80;
@@ -190,7 +190,7 @@ server {
 }
 NGINX
 
-  ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/lingjing
+  ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/app-template
   rm -f /etc/nginx/sites-enabled/default
   nginx -t && systemctl reload nginx
   success "nginx 配置完成，监听 http://$SERVER_HOST"
@@ -211,9 +211,9 @@ else
 fi
 echo ""
 echo -e "  常用命令："
-echo -e "    pm2 logs lingjing      # 查看运行日志"
-echo -e "    pm2 restart lingjing   # 重启服务"
-echo -e "    pm2 stop lingjing      # 停止服务"
+echo -e "    pm2 logs app-backend      # 查看运行日志"
+echo -e "    pm2 restart app-backend   # 重启服务"
+echo -e "    pm2 stop app-backend      # 停止服务"
 echo ""
 warn "请妥善保管 .env 文件，其中包含 API Key 和 JWT 密钥，不要提交到 Git！"
 echo ""

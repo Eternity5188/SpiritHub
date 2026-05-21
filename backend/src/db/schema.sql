@@ -359,21 +359,21 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 初始管理员账号（密码: admin123）
+-- 初始管理员账号（示例邮箱，首次部署后请立即重置密码）
 INSERT OR IGNORE INTO users (username, email, password_hash, role, lingjing_points)
 VALUES (
   'admin',
-  'admin@lingjing.com',
+  'admin@example.com',
   '$2a$10$seKzAP.MhNoqlJq.aTBZj.o53cZjxeh.8/ny.Z0UC1k6Lw.xcpxZG',
   'admin',
   9999
 );
 
--- 初始测试用户（密码: test123）
+-- 初始测试用户（示例邮箱，公开仓库请按需替换或删除）
 INSERT OR IGNORE INTO users (username, email, password_hash, role, lingjing_points)
 VALUES (
   'demo',
-  'demo@lingjing.com',
+  'demo@example.com',
   '$2a$10$vDVpT8g8VsNMD63Zv9hbTuN02ht5eGmcM/4QyMmvu0YBGHbZayXOW',
   'user',
   500

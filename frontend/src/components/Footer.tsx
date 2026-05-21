@@ -35,8 +35,8 @@ function ContactModal({ onClose }: { onClose: () => void }) {
             </div>
             <div>
               <p className="text-xs text-violet-500 font-semibold mb-1 uppercase tracking-wide">{t('开发团队', 'Development Team')}</p>
-              <p className="text-sm text-slate-500 mb-0.5">{t('东南大学', 'Southeast University')}</p>
-              <p className="font-bold text-slate-900 text-lg leading-snug">{t('"五边形战士"团队', '"Pentagon Warriors" Team')}</p>
+              <p className="text-sm text-slate-500 mb-0.5">{t('示例组织', 'Example Organization')}</p>
+              <p className="font-bold text-slate-900 text-lg leading-snug">{t('平台运营团队', 'Platform Operations Team')}</p>
             </div>
           </div>
 
@@ -48,10 +48,10 @@ function ContactModal({ onClose }: { onClose: () => void }) {
             <div>
               <p className="text-xs text-slate-400 font-semibold mb-1 uppercase tracking-wide">{t('联系邮箱', 'Email')}</p>
               <a
-                href="mailto:213232400@seu.edu.cn"
+                href="mailto:contact@example.com"
                 className="text-slate-800 font-medium hover:text-violet-600 transition-colors text-sm"
               >
-                213232400@seu.edu.cn
+                contact@example.com
               </a>
             </div>
           </div>
@@ -63,7 +63,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
             </div>
             <div>
               <p className="text-xs text-slate-400 font-semibold mb-1 uppercase tracking-wide">{t('所在城市', 'Location')}</p>
-              <p className="text-slate-800 font-medium text-sm">{t('江苏 · 南京', 'Nanjing, Jiangsu')}</p>
+              <p className="text-slate-800 font-medium text-sm">{t('示例城市', 'Example City')}</p>
             </div>
           </div>
         </div>

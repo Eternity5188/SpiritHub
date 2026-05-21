@@ -49,7 +49,7 @@ const PACKAGES = [
     border: 'border-amber-200',
     buttonClass: 'bg-amber-600 text-white hover:bg-amber-700',
     ctaText: '联系我们',
-    ctaHref: 'mailto:hello@spirithub.com',
+    ctaHref: 'mailto:contact@example.com',
     features: [
       '品牌全链路出海战略规划',
       '多品类 SKU 本地化方案',

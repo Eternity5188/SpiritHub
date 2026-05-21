@@ -57,7 +57,7 @@ export default function Privacy() {
       </Section>
 
       <Section titleZh="4. 数据存储与安全" titleEn="4. Data Storage and Security">
-        <p>{t('您的数据存储于中国大陆境内的服务器（腾讯云/阿里云）。密码使用 bcrypt 算法加密存储，明文密码不存储于任何位置。', 'Your data is stored on servers in mainland China (Tencent Cloud / Alibaba Cloud). Passwords are encrypted with bcrypt; plaintext passwords are not stored anywhere.')}</p>
+        <p>{t('您的数据存储于平台运营方管理的合规环境中。密码使用 bcrypt 算法加密存储，明文密码不存储于任何位置。', 'Your data is stored in a compliant environment managed by the platform operator. Passwords are encrypted with bcrypt; plaintext passwords are not stored anywhere.')}</p>
         <p>{t('我们使用 HTTPS、JWT 令牌验证、速率限制等措施保护数据安全。但请注意，互联网传输存在固有风险，我们无法保证绝对安全。', 'We use HTTPS, JWT verification, and rate limiting to protect your data. However, internet transmission carries inherent risk and absolute security cannot be guaranteed.')}</p>
         <p>{t('您的个人信息保存至账号注销后 30 天内删除。', 'Your personal information is retained and deleted within 30 days after account deletion.')}</p>
       </Section>
@@ -70,7 +70,7 @@ export default function Privacy() {
           <li>{t('删除权：申请注销账号，注销后 30 天内彻底删除您的数据', 'Deletion: request account deletion, after which your data will be fully removed within 30 days')}</li>
           <li>{t('撤回同意权：停止使用本平台即视为撤回同意', 'Withdraw consent: stopping use of the platform is treated as withdrawing consent')}</li>
         </ul>
-        <p>{t('行使上述权利，请联系：', 'To exercise these rights, contact:')} <a href="mailto:213232400@seu.edu.cn" className="text-violet-600 hover:underline">213232400@seu.edu.cn</a></p>
+        <p>{t('行使上述权利，请联系：', 'To exercise these rights, contact:')} <a href="mailto:privacy@example.com" className="text-violet-600 hover:underline">privacy@example.com</a></p>
       </Section>
 
       <Section titleZh="6. Cookie 与本地存储" titleEn="6. Cookies and Local Storage">
@@ -86,8 +86,8 @@ export default function Privacy() {
       </Section>
 
       <Section titleZh="9. 联系我们" titleEn="9. Contact Us">
-        <p>{t('个人信息保护负责人：东南大学"五边形战士"团队', 'Personal information protection lead: Southeast University "Pentagon Warriors" team')}</p>
-        <p>{t('联系邮箱：', 'Contact email:')} <a href="mailto:213232400@seu.edu.cn" className="text-violet-600 hover:underline">213232400@seu.edu.cn</a></p>
+        <p>{t('个人信息保护负责人：平台运营团队', 'Personal information protection lead: Platform operations team')}</p>
+        <p>{t('联系邮箱：', 'Contact email:')} <a href="mailto:privacy@example.com" className="text-violet-600 hover:underline">privacy@example.com</a></p>
       </Section>
 
       <div className="mt-10 pt-6 border-t border-stone-100 flex gap-4 text-xs text-stone-400">

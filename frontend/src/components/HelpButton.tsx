@@ -37,7 +37,7 @@ const sections = [
     bg: 'bg-sky-50',
     items: [
       ['遇到问题或有建议？欢迎随时反馈给我们', 'Questions or suggestions? Send us feedback anytime'],
-      ['邮件：support@spirithub.com', 'Email: support@spirithub.com'],
+      ['邮件：support@example.com', 'Email: support@example.com'],
     ],
   },
 ];

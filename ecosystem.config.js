@@ -1,4 +1,4 @@
-// PM2 进程管理配置 — 灵创社区平台
+// PM2 进程管理配置 — 示例平台
 // 用法:
 //   pm2 start ecosystem.config.js       # 启动全部
 //   pm2 restart ecosystem.config.js     # 重启全部
@@ -11,7 +11,7 @@ module.exports = {
   apps: [
     {
       // ── 后端 API 服务 ─────────────────────────────
-      name: 'lingjing-backend',
+      name: 'app-backend',
       script: './backend/dist/index.js',
       cwd: __dirname,
       instances: 1,

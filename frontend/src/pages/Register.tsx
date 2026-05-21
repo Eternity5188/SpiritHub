@@ -74,7 +74,7 @@ export default function Register() {
             </div>
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1.5">{t('邮箱', 'Email')} <span className="text-red-400">*</span></label>
-              <input className="input" type="email" placeholder="example@mail.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} autoComplete="email" />
+              <input className="input" type="email" placeholder="user@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} autoComplete="email" />
             </div>
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1.5">{t('密码', 'Password')} <span className="text-red-400">*</span></label>

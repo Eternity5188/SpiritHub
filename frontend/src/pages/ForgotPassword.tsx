@@ -68,7 +68,7 @@ export default function ForgotPassword() {
                   <input
                     className="input"
                     type="email"
-                    placeholder="example@mail.com"
+                    placeholder="user@example.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     autoFocus

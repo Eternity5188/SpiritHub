@@ -37,7 +37,7 @@ export async function sendPasswordResetEmail(to: string, username: string, token
         </a>
         <p style="color:#a8a29e;font-size:13px;margin-top:24px;">链接 <strong>1 小时</strong>内有效，如非本人操作请忽略此邮件。</p>
         <hr style="border:none;border-top:1px solid #e7e5e4;margin:24px 0;">
-        <p style="color:#a8a29e;font-size:12px;margin:0;">灵创平台 · 东南大学"五边形战士"团队</p>
+        <p style="color:#a8a29e;font-size:12px;margin:0;">灵创平台 · 平台运营团队</p>
       </div>
     `,
   });
