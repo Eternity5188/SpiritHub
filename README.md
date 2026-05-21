@@ -199,4 +199,6 @@ These files are intentionally sanitized for public sharing and use placeholder v
 
 ## License
 
-MIT
+Apache-2.0
+
+The repository license is defined at the root in [LICENSE](LICENSE).

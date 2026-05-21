@@ -15,9 +15,8 @@ env:
   DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
 
 jobs:
-  # ─── Quality Gates ──────────────────────────────────────────────
   quality:
-    name: Quality Checks
+    name: Frontend Quality Checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -29,37 +28,58 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
 
       - name: TypeScript type check
         run: npx tsc --noEmit
+        working-directory: frontend
 
-      - name: Production build (quality gate)
+      - name: Production build
         run: npm run build
+        working-directory: frontend
 
       - name: Verify dist output
         run: |
           test -d dist || exit 1
           test -f dist/index.html || exit 1
           echo "Build artifact verified"
+        working-directory: frontend
 
-  # ─── Security Scan (Optional) ────────────────────────────────────
   security:
-    name: Security Scan
+    name: Frontend Security Scan
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
       - name: Run npm audit
         run: npm audit --audit-level=moderate || echo "Security check complete"
+        working-directory: frontend
 
-  # ─── Deploy (Production Only) ───────────────────────────────────
   deploy:
-    name: Deploy to Production
+    name: Deploy Frontend to Production
     runs-on: ubuntu-latest
     needs: quality
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -73,9 +93,15 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Build
-        run: npm ci && npm run build
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend
 
       - name: Setup SSH key
         run: |
@@ -95,7 +121,7 @@ jobs:
         env:
           VERSION: ${{ steps.deploy_info.outputs.version }}
         run: |
-          scp -r -P $DEPLOY_PORT dist/* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/releases/$VERSION/
+          scp -r -P $DEPLOY_PORT frontend/dist/* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/releases/$VERSION/
 
       - name: Switch symlink and health check
         env:
@@ -105,23 +131,20 @@ jobs:
           set -e
           DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
           VERSION="${{ env.VERSION }}"
-          
-          # Backup current symlink
+
           if [ -L "$DEPLOY_PATH/current" ]; then
             PREV=$(readlink "$DEPLOY_PATH/current")
             echo "Previous version: $PREV"
           fi
-          
-          # Switch to new version
+
           cd "$DEPLOY_PATH"
           ln -sfn "releases/$VERSION" current.tmp
           mv -Tf current.tmp current
           echo "Switched to version: $VERSION"
-          
-          # Health check
+
           sleep 2
           HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/index.html || echo "000")
-          
+
           if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "304" ]; then
             echo "Health check passed (HTTP $HTTP_CODE)"
           else
@@ -132,8 +155,7 @@ jobs:
             fi
             exit 1
           fi
-          
-          # Cleanup old releases (keep last 5)
+
           cd "$DEPLOY_PATH/releases"
           ls -t -d */ | tail -n +6 | xargs -r rm -rf
           echo "Cleanup completed"
@@ -142,13 +164,13 @@ jobs:
       - name: Notify on success
         if: success()
         run: |
-          echo "✅ Deployment successful!"
+          echo "Deployment successful"
           echo "Version: ${{ steps.deploy_info.outputs.version }}"
           echo "Commit: ${{ github.sha }}"
 
       - name: Notify on failure
         if: failure()
         run: |
-          echo "❌ Deployment failed or health check failed"
+          echo "Deployment failed or health check failed"
           echo "Check the logs above for details"
           exit 1

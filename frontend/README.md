@@ -28,4 +28,4 @@ Use `scripts/deploy.sh` for manual hotfix deployment and `scripts/rollback.sh` f
 
 ## License
 
-MIT (see `LICENSE`)
+Apache-2.0. See the repository root LICENSE file.
