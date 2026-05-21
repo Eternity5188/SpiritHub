@@ -3,7 +3,7 @@
 # **SpiritHub**
 
 <div style="margin: 20px 0;">
-  <img src="https://via.placeholder.com/300x200?text=SpiritHub" alt="SpiritHub Logo" width="280" />
+  <img src="./frontend/public/logo.png" alt="SpiritHub Logo" width="280" />
 </div>
 
 ### 🚀 An AI-native community platform for collaboration, creator tooling, and recommendation-driven growth
