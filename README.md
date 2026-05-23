@@ -11,7 +11,7 @@
     <a href="#-overview">Overview</a> ·
     <a href="#-repository-structure">Structure</a> ·
     <a href="#-architecture">Architecture</a> ·
-    <a href="#-quick-start-local-frontend--backend">Quick Start</a> ·
+    <a href="#-one-click-local-setup">One-Click Setup</a> ·
     <a href="#%EF%B8%8F-configuration">Configuration</a> ·
     <a href="#-gnn-tools">GNN Tools</a> ·
     <a href="#-license">License</a>
@@ -98,7 +98,30 @@ The frontend communicates with the backend over HTTP REST and Socket.IO. In prod
 
 ---
 
-## Quick Start (Local Frontend + Backend)
+## One-Click Local Setup
+
+For people cloning this repository, the fastest path is a single command:
+
+```bash
+npm run setup
+```
+
+What this command does:
+
+- installs frontend and backend dependencies
+- guides you to fill local config (JWT secret, optional AI key, ports)
+- creates `backend/.env` automatically
+- optionally starts frontend and backend immediately
+
+For non-interactive defaults:
+
+```bash
+npm run setup:quick
+```
+
+---
+
+## Quick Start (Manual)
 
 ### Prerequisites
 
@@ -175,6 +198,8 @@ When `DASHSCOPE_API_KEY` is missing, AI-related endpoints may not work, but fron
 
 | Command | Description |
 |---|---|
+| `npm run setup` | Interactive one-click local setup (deps + env + optional start) |
+| `npm run setup:quick` | Non-interactive local setup with defaults |
 | `npm run install:all` | Install dependencies for all workspaces |
 | `npm run dev` | Start frontend and backend in watch mode |
 | `npm run build` | Build frontend assets, then compile backend |
