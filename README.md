@@ -10,10 +10,11 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
   [![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=flat-square&logo=python&logoColor=white)](https://python.org)
   [![License](https://img.shields.io/badge/License-Apache%202.0-fa7343?style=flat-square)](./LICENSE)
+  [![Live Demo](https://img.shields.io/badge/Live%20Demo-lcplatform.cn-6366f1?style=flat-square&logo=googlechrome&logoColor=white)](https://lcplatform.cn)
 
   <br />
 
-  [Overview](#-overview) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [Contributing](#-contributing)
+  [Overview](#-overview) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [Contributing](#-contributing) · [**🌐 Live Demo**](https://lcplatform.cn)
 
   <br />
 </div>
@@ -23,6 +24,8 @@
 ## 📦 Overview
 
 SpiritHub is a reproducible full-stack monorepo combining a social community platform, AI-powered creator tooling, and a GNN recommendation pipeline. It is **local-first** — clone and run with minimal setup.
+
+> 🌐 **Live deployment:** [lcplatform.cn](https://lcplatform.cn)
 
 | Layer | What it does |
 |---|---|
