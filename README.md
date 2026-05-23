@@ -72,27 +72,9 @@ spirithub/
 
 ## Architecture
 
-```
-                          ┌─────────────────┐
-                          │  React + Vite   │  Frontend
-                          │  TypeScript     │  (port 5173)
-                          └────────┬────────┘
-                                   │ HTTP / WebSocket
-                          ┌────────▼────────┐
-                          │  Express API    │  Backend
-                          │  Socket.IO      │  (port 3001)
-                          └──┬──────┬───┬──┘
-                             │      │   │
-              ┌──────────────▼┐  ┌──▼─┐ └──────────┐
-              │  SQLite /     │  │ AI │            │ Mailer
-              │  libSQL       │  │ APIs│            │ (SMTP)
-              └──────────┬───┘  └────┘            └────────
-                         │
-              ┌──────────▼───────┐
-              │  GNN Pipeline    │  Python (offline)
-              │  Training jobs   │
-              └──────────────────┘
-```
+<div align="center">
+  <img src="./assets/flowchart.png" alt="SpiritHub architecture flowchart" width="100%" />
+</div>
 
 The frontend communicates with the backend over HTTP REST and Socket.IO. In production, the backend serves the built frontend assets directly, while the GNN pipeline runs as a separate Python workflow that reads and writes shared data files.
 
