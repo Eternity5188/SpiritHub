@@ -164,7 +164,7 @@ cd frontend && npm run dev
 cd backend && npm run dev
 
 # GNN utilities
-cd gnn && python export_dataset.py --help
+cd gnn; python export_dataset.py --help
 ```
 
 ---
