@@ -1,116 +1,36 @@
 <div align="center">
   <br />
-  <img src="./frontend/public/logo.png" alt="SpiritHub" width="260" />
+  <img src="./frontend/public/logo.png" alt="SpiritHub" width="220" />
   <br /><br />
 
-  <p>
-    <strong>AI-native community platform for collaboration, creator tooling, and graph-based personalization.</strong>
-  </p>
+  <p><strong>AI-native community platform for collaboration, creator tooling, and graph-based personalization.</strong></p>
 
-  <p>
-    <a href="#-overview">Overview</a> ·
-    <a href="#-choose-your-path">Choose Your Path</a> ·
-    <a href="#-one-click-deploy">One-Click Deploy</a> ·
-    <a href="#-quick-start">Quick Start</a> ·
-    <a href="#-repository-structure">Structure</a> ·
-    <a href="#-architecture">Architecture</a> ·
-    <a href="#-gnn-tools">GNN Tools</a> ·
-    <a href="#-license">License</a>
-  </p>
+  [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+  [![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+  [![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=flat-square&logo=python&logoColor=white)](https://python.org)
+  [![License](https://img.shields.io/badge/License-Apache%202.0-fa7343?style=flat-square)](./LICENSE)
 
-  <p>
-    <img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white" />
-    <img src="https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react&logoColor=black" />
-    <img src="https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white" />
-    <img src="https://img.shields.io/badge/Python-3.10+-3776ab?style=flat-square&logo=python&logoColor=white" />
-    <img src="https://img.shields.io/badge/License-Apache%202.0-fa7343?style=flat-square" />
-  </p>
+  <br />
+
+  [Overview](#-overview) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [GNN Tools](#-gnn-tools) · [Contributing](#-contributing)
+
+  <br />
 </div>
 
 ---
 
 ## Overview
 
-SpiritHub is a reproducible full-stack monorepo that combines a social community platform, AI-powered creator tooling, and a graph neural network recommendation pipeline in one codebase.
-
-This repository is local-first: people browsing the code should be able to run frontend and backend on their own machine with minimal setup.
-
-## Choose Your Path
-
-Pick the path that matches what you want to do:
-
-1. One-Click Deploy: run one command and let the setup script install dependencies, generate local config, and optionally start the app.
-2. Quick Start: follow the manual steps when you want full control over each service.
-
-If you are new here, start with One-Click Deploy.
+SpiritHub is a reproducible full-stack monorepo combining a social community platform, AI-powered creator tooling, and a GNN recommendation pipeline. It is **local-first** — clone and run with minimal setup.
 
 | Layer | What it does |
 |---|---|
 | **Community** | Feed, posts, comments, friends, leaderboard, profiles, notifications |
 | **Collaboration** | CoLab projects, science groups, rooms, shared events |
 | **AI Toolkit** | Chat assistant, copywriting, content risk detection, domain workflows |
-| **Recommendations** | GNN training, dataset export, and synthetic data generation |
-| **Build** | Frontend + backend workspace scripts for local development and production builds |
-
----
-
-## Repository Structure
-
-```
-spirithub/
-├── frontend/               # React 18 + TypeScript + Vite app
-│   ├── src/                # Pages, components, hooks, lib, styles
-│   └── public/             # Static assets, including logo.png
-├── backend/                # Express + Socket.IO API service
-│   └── src/                # Routes, DB access, auth, realtime, services
-├── gnn/                    # Recommendation and dataset tooling
-│   ├── train.py            # GNN training entry point
-│   ├── run_local.py        # Download/train/upload helper for local use
-│   ├── generate_data.py    # Synthetic data generator for training
-│   ├── export_dataset.py   # Production DB export for research datasets
-│   ├── cleanup.py          # GNN data cleanup utility
-│   ├── requirements.txt    # Python dependencies for GNN tooling
-│   ├── train_temp.db       # Temporary training database
-│   └── weights/            # Saved model weights
-├── data/                   # Shared runtime data directory
-├── LICENSE                 # Apache-2.0 license
-├── package.json            # Root workspace scripts
-└── README.md               # This document
-```
-
----
-
-## Architecture
-
-<div align="center">
-  <img src="./assets/flowchart.png" alt="SpiritHub architecture flowchart" width="100%" />
-</div>
-
-The frontend communicates with the backend over HTTP REST and Socket.IO. In production, the backend serves the built frontend assets directly, while the GNN pipeline runs as a separate Python workflow that reads and writes shared data files.
-
----
-
-## One-Click Deploy
-
-For people cloning this repository, the fastest path is a single command:
-
-```bash
-npm run setup
-```
-
-What this command does:
-
-- installs root dependencies, including the CLI runner used by `npm run dev`
-- installs frontend and backend dependencies
-- guides you to fill local config (JWT secret, optional AI key, ports)
-- creates `backend/.env` automatically
-- optionally starts frontend and backend immediately
-
-For non-interactive defaults:
-
-```bash
-npm run setup:quick
-```
+| **Recommendations** | GNN training, dataset export, synthetic data generation |
+| **Build** | Frontend + backend workspace scripts for local and production builds |
 
 ---
 
@@ -124,85 +44,74 @@ npm run setup:quick
 | npm | 9+ |
 | Python | 3.10+ |
 
-### Install
+### One-Click (recommended)
 
 ```bash
-# Install all workspace dependencies in one step
-npm run install:all
+npm run setup
 ```
 
-This installs the root workspace first, then backend and frontend, so the root `concurrently` runner is available for `npm run dev`.
+Installs all dependencies, generates `backend/.env`, and optionally starts the app. For non-interactive defaults: `npm run setup:quick`.
 
-### Configure Backend Environment
-
-If `backend/.env` is missing or incomplete, the first `npm run dev` will launch a guided config check and help you fill the required values, including the optional AI key.
+### Manual
 
 ```bash
-# Linux / macOS
-cp backend/.env.example backend/.env
+npm run install:all          # install all workspace dependencies
 
-# Windows PowerShell
-Copy-Item backend/.env.example backend/.env
+cp backend/.env.example backend/.env   # Linux/macOS
+# Copy-Item backend/.env.example backend/.env  # Windows
+
+npm run dev                  # start frontend + backend concurrently
 ```
 
-You can keep most defaults for local development. The application can start without production secrets.
+Services run at `http://localhost:5173` (frontend) and `http://localhost:3001` (backend).
 
-### Development
-
-```bash
-# Start frontend + backend concurrently
-npm run dev
-```
-
-Or run each service independently:
-
-```bash
-# Frontend — http://localhost:5173
-cd frontend && npm run dev
-
-# Backend — http://localhost:3001
-cd backend && npm run dev
-
-# GNN utilities
-cd gnn; python export_dataset.py --help
-```
-
----
-
-## Scripts
+### Scripts
 
 | Command | Description |
 |---|---|
-| `npm run setup` | Interactive one-click local setup (deps + env + optional start) |
-| `npm run setup:quick` | Non-interactive local setup with defaults |
-| `npm run install:all` | Install dependencies for all workspaces |
-| `npm run dev` | Start frontend and backend in watch mode |
-| `npm run build` | Build frontend assets, then compile backend |
-| `npm run start` | Launch backend in compiled mode (serves frontend dist in production) |
+| `npm run setup` | Interactive one-click setup |
+| `npm run setup:quick` | Non-interactive setup with defaults |
+| `npm run install:all` | Install all workspace dependencies |
+| `npm run dev` | Start frontend + backend in watch mode |
+| `npm run build` | Build frontend assets and compile backend |
+| `npm run start` | Launch compiled backend (serves frontend dist) |
 
 ---
 
-## GNN Tools
+## Repository Structure
 
-The `gnn/` directory is intentionally separate from the frontend and backend source trees because it contains offline recommendation tooling rather than request-serving code.
-
-Common entry points:
-
-- `python train.py` trains the recommendation model
-- `python generate_data.py` produces synthetic training data in `train_temp.db`
-- `python export_dataset.py` exports research datasets from the shared database
-- `python run_local.py` runs the download/train/upload helper flow for local experiments
-- `python cleanup.py` performs GNN dataset maintenance tasks
-
-The root package workflow for local verification is:
-
-```bash
-npm run install:all
-npm run build
-NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
+```
+spirithub/
+├── frontend/               # React 18 + TypeScript + Vite
+│   ├── src/                # Pages, components, hooks, lib, styles
+│   └── public/             # Static assets
+├── backend/                # Express + Socket.IO API
+│   └── src/                # Routes, DB, auth, realtime, services
+├── gnn/                    # Offline recommendation tooling
+│   ├── train.py            # GNN training entry point
+│   ├── run_local.py        # Download / train / upload helper
+│   ├── generate_data.py    # Synthetic data generator
+│   ├── export_dataset.py   # Production DB export
+│   ├── cleanup.py          # Dataset maintenance
+│   ├── requirements.txt    # Python dependencies
+│   ├── train_temp.db       # Temporary training database
+│   └── weights/            # Saved model weights
+├── data/                   # Shared runtime data
+├── package.json            # Root workspace scripts
+└── LICENSE
 ```
 
-This sequence installs dependencies, builds frontend/backend, and starts a single backend process that serves compiled frontend assets.
+---
+
+## Architecture
+
+<div align="center">
+  <img src="./assets/flowchart.png" alt="SpiritHub architecture flowchart" width="100%" />
+</div>
+
+<br />
+
+The frontend communicates with the backend over HTTP REST and Socket.IO. In production, the backend serves built frontend assets directly. The GNN pipeline runs as a separate Python workflow, reading and writing shared data files independently.
 
 ---
 
@@ -214,22 +123,42 @@ This sequence installs dependencies, builds frontend/backend, and starts a singl
 | Backend | Node.js 18+, Express, TypeScript, Socket.IO, JWT, Nodemailer |
 | Database | SQLite / libSQL |
 | AI / ML | OpenAI-compatible APIs, Python GNN pipeline |
-| Build System | npm workspaces, TypeScript, Vite, concurrently |
+| Build | npm workspaces, TypeScript, Vite, concurrently |
+
+---
+
+## GNN Tools
+
+The `gnn/` directory contains offline tooling and is decoupled from the request-serving layer.
+
+| Script | Purpose |
+|---|---|
+| `python train.py` | Train the recommendation model |
+| `python generate_data.py` | Generate synthetic training data |
+| `python export_dataset.py` | Export research datasets from the production DB |
+| `python run_local.py` | Local download / train / upload helper |
+| `python cleanup.py` | Dataset maintenance |
+
+**Full local verification:**
+
+```bash
+npm run install:all && npm run build
+NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
+```
 
 ---
 
 ## Security
 
 - `.env` files and secrets are excluded from version control via `.gitignore`
-- All credentials are loaded exclusively from environment variables at runtime
-- Public-facing templates use sanitized placeholder values
-- The repository keeps deployment logic out of version control and relies on reproducible build steps instead
+- All credentials load exclusively from environment variables at runtime
+- Public templates use sanitized placeholder values
 
 ---
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome. Please open an issue before submitting a pull request for significant changes.
+Open an issue before submitting a pull request for significant changes. Contributions, bug reports, and feature requests are welcome.
 
 ---
 
