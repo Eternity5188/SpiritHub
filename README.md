@@ -29,7 +29,7 @@
 
 ## Overview
 
-SpiritHub is a full-stack monorepo that merges a social community platform with AI-powered creator tooling and a graph neural network recommendation engine — all operated from a single codebase.
+SpiritHub is a full-stack monorepo that merges a social community platform with AI-powered creator tooling and a graph neural network recommendation engine — all organized as source code for reproducible builds.
 
 | Layer | What it does |
 |---|---|
@@ -37,7 +37,7 @@ SpiritHub is a full-stack monorepo that merges a social community platform with 
 | **Collaboration** | CoLab projects, science groups, rooms, shared events |
 | **AI Toolkit** | Chat assistant, copywriting, content risk detection, domain workflows |
 | **Recommendations** | GNN training pipeline with personalized, graph-based suggestions |
-| **Operations** | CI/CD, deploy scripts, Nginx config, PM2 process management |
+| **Build** | Frontend + backend workspace scripts for local and production builds |
 
 ---
 
@@ -89,11 +89,6 @@ spirithub/
 │   └── export_dataset.py   # Production DB export for GNN research datasets
 ├── .github/
 │   └── workflows/
-│       └── ci-cd.yml       # Build, test, and deploy pipeline
-├── deploy.sh               # Production bootstrap script
-├── backup.sh               # Database backup + recovery
-├── nginx-lingjing.conf     # Reverse proxy configuration
-├── ecosystem.config.js     # PM2 process management
 └── package.json            # Root workspace scripts
 ```
 
@@ -149,7 +144,7 @@ JWT_SECRET=           # Secret key for signing JWT tokens
 DASHSCOPE_API_KEY=    # API key for AI provider integration
 ```
 
-Additional variables may be needed depending on your deployment (SMTP credentials, domain config, infrastructure paths). See `backend/.env.example` for the full reference.
+Additional variables may be needed depending on your deployment target (SMTP credentials, domain config, or external AI endpoints).
 
 ---
 
@@ -166,15 +161,21 @@ Additional variables may be needed depending on your deployment (SMTP credential
 
 ## Deployment
 
-Production operational templates are included at the repo root. These files use placeholder values and are meant to be adapted for your infrastructure.
+The repository is designed so that deployment is reproducible from source code alone. The backend serves the built frontend in production, so there is no separate deployment script in the repo.
 
-| File | Purpose |
-|---|---|
-| `.github/workflows/ci-cd.yml` | Automated CI/CD pipeline |
-| `deploy.sh` | End-to-end server bootstrap |
-| `backup.sh` | Database backup and restore |
-| `nginx-lingjing.conf` | Reverse proxy config |
-| `ecosystem.config.js` | PM2 process configuration |
+### Minimal Production Flow
+
+```bash
+npm run install:all
+npm run build
+NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
+```
+
+### What This Does
+
+- `npm run install:all` installs backend and frontend dependencies
+- `npm run build` produces `frontend/dist` and compiles the backend to `backend/dist`
+- `npm run start` starts the backend server, which serves the built frontend in production mode
 
 ---
 
@@ -186,7 +187,7 @@ Production operational templates are included at the repo root. These files use 
 | Backend | Node.js 18+, Express, TypeScript, Socket.IO, JWT, Nodemailer |
 | Database | SQLite / libSQL |
 | AI / ML | OpenAI-compatible APIs, Python GNN pipeline |
-| DevOps | GitHub Actions, PM2, Nginx |
+| Build System | npm workspaces, TypeScript, Vite, concurrently |
 
 ---
 
@@ -195,7 +196,7 @@ Production operational templates are included at the repo root. These files use 
 - `.env` files and secrets are excluded from version control via `.gitignore`
 - All credentials are loaded exclusively from environment variables at runtime
 - Public-facing templates use sanitized placeholder values
-- Dependencies are scanned on each CI run
+- The repository keeps deployment logic out of version control and relies on reproducible build steps instead
 
 ---
 
