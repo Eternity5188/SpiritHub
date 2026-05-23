@@ -90,6 +90,7 @@ npm run setup
 
 What this command does:
 
+- installs root dependencies, including the CLI runner used by `npm run dev`
 - installs frontend and backend dependencies
 - guides you to fill local config (JWT secret, optional AI key, ports)
 - creates `backend/.env` automatically
@@ -119,6 +120,8 @@ npm run setup:quick
 # Install all workspace dependencies in one step
 npm run install:all
 ```
+
+This installs the root workspace first, then backend and frontend, so the root `concurrently` runner is available for `npm run dev`.
 
 ### Configure Backend Environment
 
