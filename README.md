@@ -85,8 +85,8 @@ spirithub/
 │   └── services/           # Business logic, external integrations
 ├── gnn/                    # Recommendation pipeline (Python)
 │   ├── train.py            # GNN training entry point
-│   ├── generate.py         # Synthetic dataset generation
-│   └── upload.py           # Recommendation upload + refresh
+│   ├── generate_data.py    # Synthetic dataset generation for training
+│   └── export_dataset.py   # Production DB export for GNN research datasets
 ├── .github/
 │   └── workflows/
 │       └── ci-cd.yml       # Build, test, and deploy pipeline
@@ -133,7 +133,7 @@ cd frontend && npm run dev
 cd backend && npm run dev
 
 # GNN utilities
-cd gnn && python run_local.py --help
+cd gnn && python export_dataset.py --help
 ```
 
 ---
