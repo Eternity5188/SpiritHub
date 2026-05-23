@@ -13,38 +13,38 @@
 
   <br />
 
-  [Overview](#-overview) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [GNN Tools](#-gnn-tools) · [Contributing](#-contributing)
+  [Overview](#-overview) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [Contributing](#-contributing)
 
   <br />
 </div>
 
 ---
 
-## Overview
+## 📦 Overview
 
 SpiritHub is a reproducible full-stack monorepo combining a social community platform, AI-powered creator tooling, and a GNN recommendation pipeline. It is **local-first** — clone and run with minimal setup.
 
 | Layer | What it does |
 |---|---|
-| **Community** | Feed, posts, comments, friends, leaderboard, profiles, notifications |
-| **Collaboration** | CoLab projects, science groups, rooms, shared events |
-| **AI Toolkit** | Chat assistant, copywriting, content risk detection, domain workflows |
-| **Recommendations** | GNN training, dataset export, synthetic data generation |
-| **Build** | Frontend + backend workspace scripts for local and production builds |
+| 🏘 **Community** | Feed, posts, comments, friends, leaderboard, profiles, notifications |
+| 🔬 **Collaboration** | CoLab projects, science groups, rooms, shared events |
+| 🤖 **AI Toolkit** | Chat assistant, copywriting, content risk detection, domain workflows |
+| 🧠 **Recommendations** | GNN training, dataset export, synthetic data generation |
+| ⚙️ **Build** | Frontend + backend workspace scripts for local and production builds |
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
 | Tool | Version |
 |---|---|
-| Node.js | 18+ |
-| npm | 9+ |
-| Python | 3.10+ |
+| ![Node](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) | 18+ |
+| ![npm](https://img.shields.io/badge/-npm-CB3837?style=flat-square&logo=npm&logoColor=white) | 9+ |
+| ![Python](https://img.shields.io/badge/-Python-3776ab?style=flat-square&logo=python&logoColor=white) | 3.10+ |
 
-### One-Click (recommended)
+### ⚡ One-Click (recommended)
 
 ```bash
 npm run setup
@@ -52,7 +52,7 @@ npm run setup
 
 Installs all dependencies, generates `backend/.env`, and optionally starts the app. For non-interactive defaults: `npm run setup:quick`.
 
-### Manual
+### 🛠 Manual
 
 ```bash
 npm run install:all          # install all workspace dependencies
@@ -78,7 +78,7 @@ Services run at `http://localhost:5173` (frontend) and `http://localhost:3001` (
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 spirithub/
@@ -103,7 +103,7 @@ spirithub/
 
 ---
 
-## Architecture
+## 🏗 Architecture
 
 <div align="center">
   <img src="./assets/flowchart.png" alt="SpiritHub architecture flowchart" width="100%" />
@@ -115,40 +115,7 @@ The frontend communicates with the backend over HTTP REST and Socket.IO. In prod
 
 ---
 
-## Tech Stack
-
-| Layer | Technologies |
-|---|---|
-| Frontend | React 18, TypeScript 5, Vite, Tailwind CSS, Axios, Sentry |
-| Backend | Node.js 18+, Express, TypeScript, Socket.IO, JWT, Nodemailer |
-| Database | SQLite / libSQL |
-| AI / ML | OpenAI-compatible APIs, Python GNN pipeline |
-| Build | npm workspaces, TypeScript, Vite, concurrently |
-
----
-
-## GNN Tools
-
-The `gnn/` directory contains offline tooling and is decoupled from the request-serving layer.
-
-| Script | Purpose |
-|---|---|
-| `python train.py` | Train the recommendation model |
-| `python generate_data.py` | Generate synthetic training data |
-| `python export_dataset.py` | Export research datasets from the production DB |
-| `python run_local.py` | Local download / train / upload helper |
-| `python cleanup.py` | Dataset maintenance |
-
-**Full local verification:**
-
-```bash
-npm run install:all && npm run build
-NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
-```
-
----
-
-## Security
+## 🔒 Security
 
 - `.env` files and secrets are excluded from version control via `.gitignore`
 - All credentials load exclusively from environment variables at runtime
@@ -156,12 +123,12 @@ NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run st
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Open an issue before submitting a pull request for significant changes. Contributions, bug reports, and feature requests are welcome.
 
 ---
 
-## License
+## 📄 License
 
 Apache 2.0 — see [LICENSE](./LICENSE) for details.
