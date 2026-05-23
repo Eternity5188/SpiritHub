@@ -9,12 +9,17 @@ const COST_TEXT  =  8; // 文本风险检测
 const COST_IMAGE = 12; // 图像风险检测
 
 const DASHSCOPE_KEY = process.env.DASHSCOPE_API_KEY;
-if (!DASHSCOPE_KEY) {
-  throw new Error('DASHSCOPE_API_KEY is required');
-}
 const BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 
+function isAiConfigured() {
+  return Boolean(DASHSCOPE_KEY);
+}
+
 async function qwenCall(model: string, messages: unknown[]): Promise<string> {
+  if (!DASHSCOPE_KEY) {
+    throw new Error('AI 功能未配置 DASHSCOPE_API_KEY，当前不可用');
+  }
+
   const r = await fetch(`${BASE_URL}/chat/completions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${DASHSCOPE_KEY}` },
@@ -26,6 +31,11 @@ async function qwenCall(model: string, messages: unknown[]): Promise<string> {
 
 // POST /api/detect/text — 流式 SSE 文本风险检测（消耗 8 灵创值）
 router.post('/text', authMiddleware, async (req: AuthRequest, res: Response) => {
+  if (!isAiConfigured()) {
+    res.status(503).json({ error: 'AI 功能未配置 DASHSCOPE_API_KEY，当前不可用' });
+    return;
+  }
+
   const { text, region } = req.body as { text: string; region: string };
   if (!text || !region) { res.status(400).json({ error: '缺少参数' }); return; }
 
@@ -87,6 +97,11 @@ ${text}
 
 // POST /api/detect/image — SSE 四步工作流图像检测（消耗 12 灵创值）
 router.post('/image', authMiddleware, async (req: AuthRequest, res: Response) => {
+  if (!isAiConfigured()) {
+    res.status(503).json({ error: 'AI 功能未配置 DASHSCOPE_API_KEY，当前不可用' });
+    return;
+  }
+
   const { imageBase64, mimeType, region } = req.body as Record<string, string>;
   if (!imageBase64 || !region) { res.status(400).json({ error: '缺少参数' }); return; }
 

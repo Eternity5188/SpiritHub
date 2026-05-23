@@ -10,14 +10,16 @@ const COST_SUGGEST   = 10; // 生成文案
 const COST_TRANSLATE =  5; // 翻译文案
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-if (!DASHSCOPE_API_KEY) {
-  throw new Error('DASHSCOPE_API_KEY is required');
-}
+const client = DASHSCOPE_API_KEY
+  ? new OpenAI({
+      apiKey: DASHSCOPE_API_KEY,
+      baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    })
+  : null;
 
-const client = new OpenAI({
-  apiKey: DASHSCOPE_API_KEY,
-  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-});
+function respondAiUnavailable(res: Response) {
+  res.status(503).json({ error: 'AI 功能未配置 DASHSCOPE_API_KEY，当前不可用' });
+}
 
 const MARKET_CULTURE: Record<string, string> = {
   '巴西': '巴西文化（热情奔放、重视家庭，节庆氛围浓厚，偏好鲜艳色彩）',
@@ -37,6 +39,11 @@ const SCENE_INSTRUCTION: Record<string, string> = {
 
 // POST /api/copywriter/suggest — 生成文案（消耗 10 灵创值）
 router.post('/suggest', authMiddleware, async (req: AuthRequest, res: Response) => {
+  if (!client) {
+    respondAiUnavailable(res);
+    return;
+  }
+
   const { product, market, platform, scene, extra } = req.body as {
     product: string; market: string; platform: string; scene: string; extra?: string;
   };
@@ -95,6 +102,11 @@ ${extra ? `- 补充要求：${extra}` : ''}
 
 // POST /api/copywriter/translate — 翻译文案（消耗 5 灵创值）
 router.post('/translate', authMiddleware, async (req: AuthRequest, res: Response) => {
+  if (!client) {
+    respondAiUnavailable(res);
+    return;
+  }
+
   const { text, targetLang } = req.body as { text: string; targetLang: string };
 
   if (!text || !targetLang) {

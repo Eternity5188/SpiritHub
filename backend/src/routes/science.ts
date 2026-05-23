@@ -46,14 +46,12 @@ const upload = multer({
 
 // ── AI 客户端 ───────────────────────────────────────────
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-if (!DASHSCOPE_API_KEY) {
-  throw new Error('DASHSCOPE_API_KEY is required');
-}
-
-const ai = new OpenAI({
-  apiKey: DASHSCOPE_API_KEY,
-  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-});
+const ai = DASHSCOPE_API_KEY
+  ? new OpenAI({
+      apiKey: DASHSCOPE_API_KEY,
+      baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    })
+  : null;
 
 // ── 辅助：检查是否是科学组成员 ─────────────────────────
 async function isMember(groupId: number, userId: number): Promise<boolean> {
@@ -345,6 +343,11 @@ router.delete('/:id/files/:fileId', authMiddleware, async (req: AuthRequest, res
 // POST /api/science/:id/files/:fileId/summarize — AI 结构化摘要
 // ────────────────────────────────────────────────────────
 router.post('/:id/files/:fileId/summarize', authMiddleware, async (req: AuthRequest, res: Response) => {
+  if (!ai) {
+    res.status(503).json({ error: 'AI 功能未配置 DASHSCOPE_API_KEY，当前不可用' });
+    return;
+  }
+
   const groupId = Number(req.params.id);
   const fileId = Number(req.params.fileId);
   if (!(await isMember(groupId, req.user!.id)) && req.user!.role !== 'admin') {

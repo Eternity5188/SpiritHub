@@ -255,6 +255,16 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 
 async function main() {
   await initDb();
+  httpServer.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n[FATAL] 端口 ${PORT} 已被占用。请先停止占用该端口的进程，或修改 backend/.env 中的 PORT 后重试。`);
+      process.exit(1);
+    }
+
+    console.error('启动失败:', err);
+    process.exit(1);
+  });
+
   httpServer.listen(PORT, () => {
     console.log(`\n🚀 灵创社区平台后端启动成功`);
     console.log(`   地址: http://localhost:${PORT}`);
