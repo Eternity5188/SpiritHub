@@ -9,10 +9,11 @@
 
   <p>
     <a href="#-overview">Overview</a> ·
+    <a href="#-choose-your-path">Choose Your Path</a> ·
+    <a href="#-one-click-deploy">One-Click Deploy</a> ·
+    <a href="#-quick-start">Quick Start</a> ·
     <a href="#-repository-structure">Structure</a> ·
     <a href="#-architecture">Architecture</a> ·
-    <a href="#-one-click-local-setup">One-Click Setup</a> ·
-    <a href="#%EF%B8%8F-configuration">Configuration</a> ·
     <a href="#-gnn-tools">GNN Tools</a> ·
     <a href="#-license">License</a>
   </p>
@@ -33,6 +34,15 @@
 SpiritHub is a reproducible full-stack monorepo that combines a social community platform, AI-powered creator tooling, and a graph neural network recommendation pipeline in one codebase.
 
 This repository is local-first: people browsing the code should be able to run frontend and backend on their own machine with minimal setup.
+
+## Choose Your Path
+
+Pick the path that matches what you want to do:
+
+1. One-Click Deploy: run one command and let the setup script install dependencies, generate local config, and optionally start the app.
+2. Quick Start: follow the manual steps when you want full control over each service.
+
+If you are new here, start with One-Click Deploy.
 
 | Layer | What it does |
 |---|---|
@@ -80,7 +90,7 @@ The frontend communicates with the backend over HTTP REST and Socket.IO. In prod
 
 ---
 
-## One-Click Local Setup
+## One-Click Deploy
 
 For people cloning this repository, the fastest path is a single command:
 
@@ -104,7 +114,7 @@ npm run setup:quick
 
 ---
 
-## Quick Start (Manual)
+## Quick Start
 
 ### Prerequisites
 
@@ -154,28 +164,6 @@ cd backend && npm run dev
 # GNN utilities
 cd gnn && python export_dataset.py --help
 ```
-
----
-
-## Configuration
-
-No `.env` files are tracked. All runtime values must be provided as environment variables.
-
-**Local development (backend):**
-
-```env
-PORT=3001
-JWT_SECRET=lingjing_secret_dev
-FRONTEND_URL=http://localhost:5173
-```
-
-**Optional for AI features:**
-
-```env
-DASHSCOPE_API_KEY=
-```
-
-When `DASHSCOPE_API_KEY` is missing, AI-related endpoints may not work, but frontend + backend local startup still works.
 
 ---
 
