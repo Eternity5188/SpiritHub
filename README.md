@@ -11,7 +11,7 @@
     <a href="#-overview">Overview</a> ·
     <a href="#-repository-structure">Structure</a> ·
     <a href="#-architecture">Architecture</a> ·
-    <a href="#-quick-start">Quick Start</a> ·
+    <a href="#-quick-start-local-frontend--backend">Quick Start</a> ·
     <a href="#%EF%B8%8F-configuration">Configuration</a> ·
     <a href="#-gnn-tools">GNN Tools</a> ·
     <a href="#-license">License</a>
@@ -31,6 +31,8 @@
 ## Overview
 
 SpiritHub is a reproducible full-stack monorepo that combines a social community platform, AI-powered creator tooling, and a graph neural network recommendation pipeline in one codebase.
+
+This repository is local-first: people browsing the code should be able to run frontend and backend on their own machine with minimal setup.
 
 | Layer | What it does |
 |---|---|
@@ -78,7 +80,7 @@ spirithub/
                                    │ HTTP / WebSocket
                           ┌────────▼────────┐
                           │  Express API    │  Backend
-                          │  Socket.IO      │  (port 3000)
+                          │  Socket.IO      │  (port 3001)
                           └──┬──────┬───┬──┘
                              │      │   │
               ┌──────────────▼┐  ┌──▼─┐ └──────────┐
@@ -96,7 +98,7 @@ The frontend communicates with the backend over HTTP REST and Socket.IO. In prod
 
 ---
 
-## Quick Start
+## Quick Start (Local Frontend + Backend)
 
 ### Prerequisites
 
@@ -113,6 +115,18 @@ The frontend communicates with the backend over HTTP REST and Socket.IO. In prod
 npm run install:all
 ```
 
+### Configure Backend Environment
+
+```bash
+# Linux / macOS
+cp backend/.env.example backend/.env
+
+# Windows PowerShell
+Copy-Item backend/.env.example backend/.env
+```
+
+You can keep most defaults for local development. The application can start without production secrets.
+
 ### Development
 
 ```bash
@@ -126,7 +140,7 @@ Or run each service independently:
 # Frontend — http://localhost:5173
 cd frontend && npm run dev
 
-# Backend — http://localhost:3000
+# Backend — http://localhost:3001
 cd backend && npm run dev
 
 # GNN utilities
@@ -139,14 +153,21 @@ cd gnn && python export_dataset.py --help
 
 No `.env` files are tracked. All runtime values must be provided as environment variables.
 
-**Required (backend):**
+**Local development (backend):**
 
 ```env
-JWT_SECRET=           # Secret key for signing JWT tokens
-DASHSCOPE_API_KEY=    # API key for AI provider integration
+PORT=3001
+JWT_SECRET=lingjing_secret_dev
+FRONTEND_URL=http://localhost:5173
 ```
 
-Additional variables may be needed depending on your runtime target, such as SMTP credentials or external AI endpoints.
+**Optional for AI features:**
+
+```env
+DASHSCOPE_API_KEY=
+```
+
+When `DASHSCOPE_API_KEY` is missing, AI-related endpoints may not work, but frontend + backend local startup still works.
 
 ---
 
@@ -157,7 +178,7 @@ Additional variables may be needed depending on your runtime target, such as SMT
 | `npm run install:all` | Install dependencies for all workspaces |
 | `npm run dev` | Start frontend and backend in watch mode |
 | `npm run build` | Build frontend assets, then compile backend |
-| `npm run start` | Launch the compiled production server |
+| `npm run start` | Launch backend in compiled mode (serves frontend dist in production) |
 
 ---
 
@@ -173,7 +194,7 @@ Common entry points:
 - `python run_local.py` runs the download/train/upload helper flow for local experiments
 - `python cleanup.py` performs GNN dataset maintenance tasks
 
-The root [package.json](package.json) keeps the main application workflow minimal:
+The root package workflow for local verification is:
 
 ```bash
 npm run install:all
@@ -181,7 +202,7 @@ npm run build
 NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
 ```
 
-This sequence installs dependencies, builds the frontend and backend, and starts the backend server that serves the compiled frontend in production mode.
+This sequence installs dependencies, builds frontend/backend, and starts a single backend process that serves compiled frontend assets.
 
 ---
 
