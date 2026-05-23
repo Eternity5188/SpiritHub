@@ -9,10 +9,11 @@
 
   <p>
     <a href="#-overview">Overview</a> ·
+    <a href="#-repository-structure">Structure</a> ·
     <a href="#-architecture">Architecture</a> ·
     <a href="#-quick-start">Quick Start</a> ·
     <a href="#%EF%B8%8F-configuration">Configuration</a> ·
-    <a href="#-deployment">Deployment</a> ·
+    <a href="#-gnn-tools">GNN Tools</a> ·
     <a href="#-license">License</a>
   </p>
 
@@ -29,15 +30,41 @@
 
 ## Overview
 
-SpiritHub is a full-stack monorepo that merges a social community platform with AI-powered creator tooling and a graph neural network recommendation engine — all organized as source code for reproducible builds.
+SpiritHub is a reproducible full-stack monorepo that combines a social community platform, AI-powered creator tooling, and a graph neural network recommendation pipeline in one codebase.
 
 | Layer | What it does |
 |---|---|
 | **Community** | Feed, posts, comments, friends, leaderboard, profiles, notifications |
 | **Collaboration** | CoLab projects, science groups, rooms, shared events |
 | **AI Toolkit** | Chat assistant, copywriting, content risk detection, domain workflows |
-| **Recommendations** | GNN training pipeline with personalized, graph-based suggestions |
-| **Build** | Frontend + backend workspace scripts for local and production builds |
+| **Recommendations** | GNN training, dataset export, and synthetic data generation |
+| **Build** | Frontend + backend workspace scripts for local development and production builds |
+
+---
+
+## Repository Structure
+
+```
+spirithub/
+├── frontend/               # React 18 + TypeScript + Vite app
+│   ├── src/                # Pages, components, hooks, lib, styles
+│   └── public/             # Static assets, including logo.png
+├── backend/                # Express + Socket.IO API service
+│   └── src/                # Routes, DB access, auth, realtime, services
+├── gnn/                    # Recommendation and dataset tooling
+│   ├── train.py            # GNN training entry point
+│   ├── run_local.py        # Download/train/upload helper for local use
+│   ├── generate_data.py    # Synthetic data generator for training
+│   ├── export_dataset.py   # Production DB export for research datasets
+│   ├── cleanup.py          # GNN data cleanup utility
+│   ├── requirements.txt    # Python dependencies for GNN tooling
+│   ├── train_temp.db       # Temporary training database
+│   └── weights/            # Saved model weights
+├── data/                   # Shared runtime data directory
+├── LICENSE                 # Apache-2.0 license
+├── package.json            # Root workspace scripts
+└── README.md               # This document
+```
 
 ---
 
@@ -65,32 +92,7 @@ SpiritHub is a full-stack monorepo that merges a social community platform with 
               └──────────────────┘
 ```
 
-The frontend communicates with the backend over HTTP REST and Socket.IO. The GNN pipeline runs as a standalone Python process and writes recommendation data directly to the shared database, decoupling training from the request-serving path.
-
----
-
-## Repository Structure
-
-```
-spirithub/
-├── frontend/               # React app (Vite + TypeScript + Tailwind)
-│   ├── src/
-│   │   ├── pages/          # Route-level components
-│   │   ├── components/     # Shared UI components
-│   │   └── api/            # Typed client API layer
-│   └── public/
-├── backend/                # Express service (TypeScript)
-│   ├── routes/             # Auth, social, collab, AI, realtime
-│   ├── middleware/         # JWT, rate limiting, error handling
-│   └── services/           # Business logic, external integrations
-├── gnn/                    # Recommendation pipeline (Python)
-│   ├── train.py            # GNN training entry point
-│   ├── generate_data.py    # Synthetic dataset generation for training
-│   └── export_dataset.py   # Production DB export for GNN research datasets
-├── .github/
-│   └── workflows/
-└── package.json            # Root workspace scripts
-```
+The frontend communicates with the backend over HTTP REST and Socket.IO. In production, the backend serves the built frontend assets directly, while the GNN pipeline runs as a separate Python workflow that reads and writes shared data files.
 
 ---
 
@@ -144,7 +146,7 @@ JWT_SECRET=           # Secret key for signing JWT tokens
 DASHSCOPE_API_KEY=    # API key for AI provider integration
 ```
 
-Additional variables may be needed depending on your deployment target (SMTP credentials, domain config, or external AI endpoints).
+Additional variables may be needed depending on your runtime target, such as SMTP credentials or external AI endpoints.
 
 ---
 
@@ -159,11 +161,19 @@ Additional variables may be needed depending on your deployment target (SMTP cre
 
 ---
 
-## Deployment
+## GNN Tools
 
-The repository is designed so that deployment is reproducible from source code alone. The backend serves the built frontend in production, so there is no separate deployment script in the repo.
+The `gnn/` directory is intentionally separate from the frontend and backend source trees because it contains offline recommendation tooling rather than request-serving code.
 
-### Minimal Production Flow
+Common entry points:
+
+- `python train.py` trains the recommendation model
+- `python generate_data.py` produces synthetic training data in `train_temp.db`
+- `python export_dataset.py` exports research datasets from the shared database
+- `python run_local.py` runs the download/train/upload helper flow for local experiments
+- `python cleanup.py` performs GNN dataset maintenance tasks
+
+The root [package.json](package.json) keeps the main application workflow minimal:
 
 ```bash
 npm run install:all
@@ -171,11 +181,7 @@ npm run build
 NODE_ENV=production JWT_SECRET=your-secret DASHSCOPE_API_KEY=your-key npm run start
 ```
 
-### What This Does
-
-- `npm run install:all` installs backend and frontend dependencies
-- `npm run build` produces `frontend/dist` and compiles the backend to `backend/dist`
-- `npm run start` starts the backend server, which serves the built frontend in production mode
+This sequence installs dependencies, builds the frontend and backend, and starts the backend server that serves the compiled frontend in production mode.
 
 ---
 
