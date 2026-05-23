@@ -25,7 +25,7 @@
 
 SpiritHub is a reproducible full-stack monorepo combining a social community platform, AI-powered creator tooling, and a GNN recommendation pipeline. It is **local-first** — clone and run with minimal setup.
 
-> 🌐 **Live deployment:** [lcplatform.cn](https://lcplatform.cn)
+> 🌐 **Live deployment:** [lcplatform.cn](https://lcplatform.cn) · Fallback: [43.162.101.88](http://43.162.101.88)
 
 | Layer | What it does |
 |---|---|
