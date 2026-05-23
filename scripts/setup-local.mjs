@@ -15,6 +15,8 @@ const args = new Set(process.argv.slice(2));
 const autoYes = args.has('--yes');
 const forceOverwrite = args.has('--force');
 const noStart = args.has('--no-start');
+const noInstall = args.has('--no-install');
+const ensureOnly = args.has('--ensure');
 
 function logStep(message) {
   console.log(`\n==> ${message}`);
@@ -34,6 +36,47 @@ function checkNodeVersion() {
 
 function generateJwtSecret() {
   return crypto.randomBytes(24).toString('hex');
+}
+
+function readEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return {};
+  }
+
+  const env = {};
+  const content = fs.readFileSync(filePath, 'utf8');
+
+  for (const line of content.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+
+    const separatorIndex = line.indexOf('=');
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = line.slice(0, separatorIndex).trim();
+    const value = line.slice(separatorIndex + 1).trim();
+    env[key] = value;
+  }
+
+  return env;
+}
+
+function buildConfig(existingEnv = {}) {
+  return {
+    port: existingEnv.PORT || '3001',
+    frontendUrl: existingEnv.FRONTEND_URL || 'http://localhost:5173',
+    nodeEnv: existingEnv.NODE_ENV || 'development',
+    jwtSecret: existingEnv.JWT_SECRET || generateJwtSecret(),
+    dashscopeApiKey: existingEnv.DASHSCOPE_API_KEY || '',
+  };
+}
+
+function hasOwnEnvKey(env, key) {
+  return Object.prototype.hasOwnProperty.call(env, key);
 }
 
 function createPrompt() {
@@ -104,6 +147,52 @@ function writeBackendEnv(config) {
 async function main() {
   checkNodeVersion();
 
+  const existingEnv = readEnvFile(backendEnvPath);
+  const defaultConfig = buildConfig(existingEnv);
+  const hasBackendEnv = fs.existsSync(backendEnvPath);
+  const missingRequiredEnv = ['PORT', 'FRONTEND_URL', 'NODE_ENV', 'JWT_SECRET']
+    .some((key) => !existingEnv[key]);
+  const missingDashscopeEntry = !hasOwnEnvKey(existingEnv, 'DASHSCOPE_API_KEY');
+
+  if (ensureOnly) {
+    if (hasBackendEnv && !forceOverwrite && !missingRequiredEnv && !missingDashscopeEntry) {
+      console.log('backend/.env is already configured.');
+      return;
+    }
+
+    console.log('SpiritHub config check');
+    console.log('Detected missing local backend config. Launching guided setup.');
+
+    let config = defaultConfig;
+
+    if (!autoYes) {
+      const prompt = createPrompt();
+      try {
+        config = {
+          port: await prompt.ask('Backend PORT', defaultConfig.port, true),
+          frontendUrl: await prompt.ask('FRONTEND_URL', defaultConfig.frontendUrl, true),
+          nodeEnv: await prompt.ask('NODE_ENV', defaultConfig.nodeEnv, true),
+          jwtSecret: await prompt.ask('JWT_SECRET', defaultConfig.jwtSecret, true),
+          dashscopeApiKey: defaultConfig.dashscopeApiKey,
+        };
+
+        if (missingDashscopeEntry && !defaultConfig.dashscopeApiKey) {
+          const shouldConfigureAi = await prompt.confirm('DASHSCOPE_API_KEY is not configured. Add it now?', false);
+          if (shouldConfigureAi) {
+            config.dashscopeApiKey = await prompt.ask('DASHSCOPE_API_KEY (optional)', '', false);
+          }
+        }
+      } finally {
+        prompt.close();
+      }
+    }
+
+    logStep('Writing backend/.env');
+    writeBackendEnv(config);
+    console.log(`Wrote ${path.relative(rootDir, backendEnvPath)}`);
+    return;
+  }
+
   console.log('SpiritHub local setup');
   console.log('This script will:');
   console.log('1) install frontend/backend dependencies');
@@ -144,8 +233,10 @@ async function main() {
     }
   }
 
-  logStep('Installing dependencies');
-  run('npm run install:all');
+  if (!noInstall) {
+    logStep('Installing dependencies');
+    run('npm run install:all');
+  }
 
   if (shouldWriteEnv) {
     logStep('Writing backend/.env');

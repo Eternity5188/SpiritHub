@@ -135,6 +135,8 @@ This installs the root workspace first, then backend and frontend, so the root `
 
 ### Configure Backend Environment
 
+If `backend/.env` is missing or incomplete, the first `npm run dev` will launch a guided config check and help you fill the required values, including the optional AI key.
+
 ```bash
 # Linux / macOS
 cp backend/.env.example backend/.env

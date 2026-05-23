@@ -6,14 +6,12 @@ import fs from 'fs';
 const router = Router();
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-if (!DASHSCOPE_API_KEY) {
-  throw new Error('DASHSCOPE_API_KEY is required');
-}
-
-const client = new OpenAI({
-  apiKey: DASHSCOPE_API_KEY,
-  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-});
+const client = DASHSCOPE_API_KEY
+  ? new OpenAI({
+      apiKey: DASHSCOPE_API_KEY,
+      baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    })
+  : null;
 
 // 加载知识库
 const knowledgePath = path.join(__dirname, '../data/knowledge.json');
@@ -39,6 +37,11 @@ interface ChatMessage {
 
 // POST /api/ai/chat — 智能客服对话（SSE 流式返回）
 router.post('/chat', async (req: Request, res: Response) => {
+  if (!client) {
+    res.status(503).json({ error: 'AI 功能未配置 DASHSCOPE_API_KEY，当前不可用' });
+    return;
+  }
+
   const { messages } = req.body as { messages: ChatMessage[] };
 
   if (!Array.isArray(messages) || messages.length === 0) {
